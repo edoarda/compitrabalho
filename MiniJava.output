@@ -1,0 +1,1781 @@
+Estado 130 conflitos: 6 de deslocamento/redução
+Estado 131 conflitos: 5 de deslocamento/redução
+Estado 138 conflitos: 1 de deslocamento/redução
+
+
+Gramática
+
+    0 $accept: PROG $end
+
+    1 PROG: MAIN CLASSE
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    3 CLASSE: Class Id Extends Id '{' VARLIST METODOLIST '}'
+    4       | Class Id '{' VARLIST METODOLIST '}'
+
+    5 VARLIST: VARLIST VAR
+    6        | %empty
+
+    7 VAR: TIPO Id ';'
+
+    8 METODOLIST: METODOLIST METODO
+    9           | %empty
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST CMD Return EXP ';' '}'
+
+   11 PARAM: PARAM ',' TIPO Id
+   12      | TIPO Id
+   13      | %empty
+
+   14 TIPO: Int '[' ']'
+   15     | Boolean
+   16     | Int
+   17     | Id
+
+   18 CMDLIST: CMDLIST CMD
+   19        | %empty
+
+   20 CMD: '{' CMDLIST '}'
+   21    | If '(' EXP ')' CMDLIST
+   22    | If '(' EXP ')' CMDLIST Else CMD
+   23    | While '(' EXP ')' CMDLIST
+   24    | Sout '(' EXP ')' ';'
+   25    | Id '=' EXP ';'
+   26    | Id '[' EXP ']' '=' EXP ';'
+
+   27 EXP: EXP eLogico REXP
+   28    | REXP
+
+   29 REXP: REXP '<' AEXP
+   30     | REXP igual AEXP
+   31     | REXP diferente AEXP
+   32     | AEXP
+
+   33 AEXP: AEXP '+' MEXP
+   34     | AEXP '-' MEXP
+   35     | MEXP
+
+   36 MEXP: MEXP '*' SEXP
+   37     | MEXP '/' SEXP
+   38     | SEXP
+
+   39 SEXP: '!' SEXP
+   40     | '-' SEXP
+   41     | True
+   42     | False
+   43     | num
+   44     | Null
+   45     | New Int '[' EXP ']'
+   46     | PEXP '.' Length
+   47     | PEXP '[' EXP ']'
+   48     | PEXP
+
+   49 PEXP: Id
+   50     | This
+   51     | New Id '(' ')'
+   52     | '(' EXP ')'
+   53     | PEXP '.' Id
+   54     | PEXP '.' Id '(' EXPS ')'
+   55     | PEXP '.' Id '(' ')'
+
+   56 EXPS: EXPS ',' EXP
+   57     | EXP
+   58     | %empty
+
+
+Terminais, com as regras onde eles aparecem
+
+$end (0) 0
+'!' (33) 39
+'(' (40) 2 10 21 22 23 24 51 52 54 55
+')' (41) 2 10 21 22 23 24 51 52 54 55
+'*' (42) 36
+'+' (43) 33
+',' (44) 11 56
+'-' (45) 34 40
+'.' (46) 46 53 54 55
+'/' (47) 37
+';' (59) 7 10 24 25 26
+'<' (60) 29
+'=' (61) 25 26
+'[' (91) 2 14 26 45 47
+']' (93) 2 14 26 45 47
+'{' (123) 2 3 4 10 20
+'}' (125) 2 3 4 10 20
+error (256)
+num (258) 43
+Id (259) 2 3 4 7 10 11 12 17 25 26 49 51 53 54 55
+Boolean (260) 15
+Class (261) 2 3 4
+Extends (262) 3
+Public (263) 2 10
+Static (264) 2
+Void (265) 2
+Main (266) 2
+String (267) 2
+Return (268) 10
+Int (269) 14 16 45
+If (270) 21 22
+Else (271) 22
+While (272) 23
+Sout (273) 24
+Length (274) 46
+True (275) 41
+False (276) 42
+This (277) 50
+New (278) 45 51
+Null (279) 44
+igual (280) 30
+diferente (281) 31
+eLogico (282) 27
+
+
+Não terminais com as regras onde eles aparecem
+
+$accept (44)
+    à esquerda: 0
+PROG (45)
+    à esquerda: 1, à direita: 0
+MAIN (46)
+    à esquerda: 2, à direita: 1
+CLASSE (47)
+    à esquerda: 3 4, à direita: 1
+VARLIST (48)
+    à esquerda: 5 6, à direita: 3 4 5 10
+VAR (49)
+    à esquerda: 7, à direita: 5
+METODOLIST (50)
+    à esquerda: 8 9, à direita: 3 4 8
+METODO (51)
+    à esquerda: 10, à direita: 8
+PARAM (52)
+    à esquerda: 11 12 13, à direita: 10 11
+TIPO (53)
+    à esquerda: 14 15 16 17, à direita: 7 10 11 12
+CMDLIST (54)
+    à esquerda: 18 19, à direita: 18 20 21 22 23
+CMD (55)
+    à esquerda: 20 21 22 23 24 25 26, à direita: 2 10 18 22
+EXP (56)
+    à esquerda: 27 28, à direita: 10 21 22 23 24 25 26 27 45 47 52
+    56 57
+REXP (57)
+    à esquerda: 29 30 31 32, à direita: 27 28 29 30 31
+AEXP (58)
+    à esquerda: 33 34 35, à direita: 29 30 31 32 33 34
+MEXP (59)
+    à esquerda: 36 37 38, à direita: 33 34 35 36 37
+SEXP (60)
+    à esquerda: 39 40 41 42 43 44 45 46 47 48, à direita: 36 37 38
+    39 40
+PEXP (61)
+    à esquerda: 49 50 51 52 53 54 55, à direita: 46 47 48 53 54 55
+EXPS (62)
+    à esquerda: 56 57 58, à direita: 54 56
+
+
+Estado 0
+
+    0 $accept: . PROG $end
+
+    Class  deslocar, e ir ao estado 1
+
+    PROG  ir ao estado 2
+    MAIN  ir ao estado 3
+
+
+Estado 1
+
+    2 MAIN: Class . Id '{' Public Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    Id  deslocar, e ir ao estado 4
+
+
+Estado 2
+
+    0 $accept: PROG . $end
+
+    $end  deslocar, e ir ao estado 5
+
+
+Estado 3
+
+    1 PROG: MAIN . CLASSE
+
+    Class  deslocar, e ir ao estado 6
+
+    CLASSE  ir ao estado 7
+
+
+Estado 4
+
+    2 MAIN: Class Id . '{' Public Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    '{'  deslocar, e ir ao estado 8
+
+
+Estado 5
+
+    0 $accept: PROG $end .
+
+    $padrão  aceitar
+
+
+Estado 6
+
+    3 CLASSE: Class . Id Extends Id '{' VARLIST METODOLIST '}'
+    4       | Class . Id '{' VARLIST METODOLIST '}'
+
+    Id  deslocar, e ir ao estado 9
+
+
+Estado 7
+
+    1 PROG: MAIN CLASSE .
+
+    $padrão  reduzir usando a regra 1 (PROG)
+
+
+Estado 8
+
+    2 MAIN: Class Id '{' . Public Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    Public  deslocar, e ir ao estado 10
+
+
+Estado 9
+
+    3 CLASSE: Class Id . Extends Id '{' VARLIST METODOLIST '}'
+    4       | Class Id . '{' VARLIST METODOLIST '}'
+
+    Extends  deslocar, e ir ao estado 11
+    '{'      deslocar, e ir ao estado 12
+
+
+Estado 10
+
+    2 MAIN: Class Id '{' Public . Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    Static  deslocar, e ir ao estado 13
+
+
+Estado 11
+
+    3 CLASSE: Class Id Extends . Id '{' VARLIST METODOLIST '}'
+
+    Id  deslocar, e ir ao estado 14
+
+
+Estado 12
+
+    4 CLASSE: Class Id '{' . VARLIST METODOLIST '}'
+
+    $padrão  reduzir usando a regra 6 (VARLIST)
+
+    VARLIST  ir ao estado 15
+
+
+Estado 13
+
+    2 MAIN: Class Id '{' Public Static . Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    Void  deslocar, e ir ao estado 16
+
+
+Estado 14
+
+    3 CLASSE: Class Id Extends Id . '{' VARLIST METODOLIST '}'
+
+    '{'  deslocar, e ir ao estado 17
+
+
+Estado 15
+
+    4 CLASSE: Class Id '{' VARLIST . METODOLIST '}'
+    5 VARLIST: VARLIST . VAR
+
+    Id       deslocar, e ir ao estado 18
+    Boolean  deslocar, e ir ao estado 19
+    Int      deslocar, e ir ao estado 20
+
+    $padrão  reduzir usando a regra 9 (METODOLIST)
+
+    VAR         ir ao estado 21
+    METODOLIST  ir ao estado 22
+    TIPO        ir ao estado 23
+
+
+Estado 16
+
+    2 MAIN: Class Id '{' Public Static Void . Main '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    Main  deslocar, e ir ao estado 24
+
+
+Estado 17
+
+    3 CLASSE: Class Id Extends Id '{' . VARLIST METODOLIST '}'
+
+    $padrão  reduzir usando a regra 6 (VARLIST)
+
+    VARLIST  ir ao estado 25
+
+
+Estado 18
+
+   17 TIPO: Id .
+
+    $padrão  reduzir usando a regra 17 (TIPO)
+
+
+Estado 19
+
+   15 TIPO: Boolean .
+
+    $padrão  reduzir usando a regra 15 (TIPO)
+
+
+Estado 20
+
+   14 TIPO: Int . '[' ']'
+   16     | Int .
+
+    '['  deslocar, e ir ao estado 26
+
+    $padrão  reduzir usando a regra 16 (TIPO)
+
+
+Estado 21
+
+    5 VARLIST: VARLIST VAR .
+
+    $padrão  reduzir usando a regra 5 (VARLIST)
+
+
+Estado 22
+
+    4 CLASSE: Class Id '{' VARLIST METODOLIST . '}'
+    8 METODOLIST: METODOLIST . METODO
+
+    Public  deslocar, e ir ao estado 27
+    '}'     deslocar, e ir ao estado 28
+
+    METODO  ir ao estado 29
+
+
+Estado 23
+
+    7 VAR: TIPO . Id ';'
+
+    Id  deslocar, e ir ao estado 30
+
+
+Estado 24
+
+    2 MAIN: Class Id '{' Public Static Void Main . '(' String '[' ']' Id ')' '{' CMD '}' '}'
+
+    '('  deslocar, e ir ao estado 31
+
+
+Estado 25
+
+    3 CLASSE: Class Id Extends Id '{' VARLIST . METODOLIST '}'
+    5 VARLIST: VARLIST . VAR
+
+    Id       deslocar, e ir ao estado 18
+    Boolean  deslocar, e ir ao estado 19
+    Int      deslocar, e ir ao estado 20
+
+    $padrão  reduzir usando a regra 9 (METODOLIST)
+
+    VAR         ir ao estado 21
+    METODOLIST  ir ao estado 32
+    TIPO        ir ao estado 23
+
+
+Estado 26
+
+   14 TIPO: Int '[' . ']'
+
+    ']'  deslocar, e ir ao estado 33
+
+
+Estado 27
+
+   10 METODO: Public . TIPO Id '(' PARAM ')' '{' VARLIST CMD Return EXP ';' '}'
+
+    Id       deslocar, e ir ao estado 18
+    Boolean  deslocar, e ir ao estado 19
+    Int      deslocar, e ir ao estado 20
+
+    TIPO  ir ao estado 34
+
+
+Estado 28
+
+    4 CLASSE: Class Id '{' VARLIST METODOLIST '}' .
+
+    $padrão  reduzir usando a regra 4 (CLASSE)
+
+
+Estado 29
+
+    8 METODOLIST: METODOLIST METODO .
+
+    $padrão  reduzir usando a regra 8 (METODOLIST)
+
+
+Estado 30
+
+    7 VAR: TIPO Id . ';'
+
+    ';'  deslocar, e ir ao estado 35
+
+
+Estado 31
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' . String '[' ']' Id ')' '{' CMD '}' '}'
+
+    String  deslocar, e ir ao estado 36
+
+
+Estado 32
+
+    3 CLASSE: Class Id Extends Id '{' VARLIST METODOLIST . '}'
+    8 METODOLIST: METODOLIST . METODO
+
+    Public  deslocar, e ir ao estado 27
+    '}'     deslocar, e ir ao estado 37
+
+    METODO  ir ao estado 29
+
+
+Estado 33
+
+   14 TIPO: Int '[' ']' .
+
+    $padrão  reduzir usando a regra 14 (TIPO)
+
+
+Estado 34
+
+   10 METODO: Public TIPO . Id '(' PARAM ')' '{' VARLIST CMD Return EXP ';' '}'
+
+    Id  deslocar, e ir ao estado 38
+
+
+Estado 35
+
+    7 VAR: TIPO Id ';' .
+
+    $padrão  reduzir usando a regra 7 (VAR)
+
+
+Estado 36
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String . '[' ']' Id ')' '{' CMD '}' '}'
+
+    '['  deslocar, e ir ao estado 39
+
+
+Estado 37
+
+    3 CLASSE: Class Id Extends Id '{' VARLIST METODOLIST '}' .
+
+    $padrão  reduzir usando a regra 3 (CLASSE)
+
+
+Estado 38
+
+   10 METODO: Public TIPO Id . '(' PARAM ')' '{' VARLIST CMD Return EXP ';' '}'
+
+    '('  deslocar, e ir ao estado 40
+
+
+Estado 39
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' . ']' Id ')' '{' CMD '}' '}'
+
+    ']'  deslocar, e ir ao estado 41
+
+
+Estado 40
+
+   10 METODO: Public TIPO Id '(' . PARAM ')' '{' VARLIST CMD Return EXP ';' '}'
+
+    Id       deslocar, e ir ao estado 18
+    Boolean  deslocar, e ir ao estado 19
+    Int      deslocar, e ir ao estado 20
+
+    $padrão  reduzir usando a regra 13 (PARAM)
+
+    PARAM  ir ao estado 42
+    TIPO   ir ao estado 43
+
+
+Estado 41
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' . Id ')' '{' CMD '}' '}'
+
+    Id  deslocar, e ir ao estado 44
+
+
+Estado 42
+
+   10 METODO: Public TIPO Id '(' PARAM . ')' '{' VARLIST CMD Return EXP ';' '}'
+   11 PARAM: PARAM . ',' TIPO Id
+
+    ')'  deslocar, e ir ao estado 45
+    ','  deslocar, e ir ao estado 46
+
+
+Estado 43
+
+   12 PARAM: TIPO . Id
+
+    Id  deslocar, e ir ao estado 47
+
+
+Estado 44
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id . ')' '{' CMD '}' '}'
+
+    ')'  deslocar, e ir ao estado 48
+
+
+Estado 45
+
+   10 METODO: Public TIPO Id '(' PARAM ')' . '{' VARLIST CMD Return EXP ';' '}'
+
+    '{'  deslocar, e ir ao estado 49
+
+
+Estado 46
+
+   11 PARAM: PARAM ',' . TIPO Id
+
+    Id       deslocar, e ir ao estado 18
+    Boolean  deslocar, e ir ao estado 19
+    Int      deslocar, e ir ao estado 20
+
+    TIPO  ir ao estado 50
+
+
+Estado 47
+
+   12 PARAM: TIPO Id .
+
+    $padrão  reduzir usando a regra 12 (PARAM)
+
+
+Estado 48
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id ')' . '{' CMD '}' '}'
+
+    '{'  deslocar, e ir ao estado 51
+
+
+Estado 49
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' . VARLIST CMD Return EXP ';' '}'
+
+    $padrão  reduzir usando a regra 6 (VARLIST)
+
+    VARLIST  ir ao estado 52
+
+
+Estado 50
+
+   11 PARAM: PARAM ',' TIPO . Id
+
+    Id  deslocar, e ir ao estado 53
+
+
+Estado 51
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id ')' '{' . CMD '}' '}'
+
+    Id     deslocar, e ir ao estado 54
+    If     deslocar, e ir ao estado 55
+    While  deslocar, e ir ao estado 56
+    Sout   deslocar, e ir ao estado 57
+    '{'    deslocar, e ir ao estado 58
+
+    CMD  ir ao estado 59
+
+
+Estado 52
+
+    5 VARLIST: VARLIST . VAR
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST . CMD Return EXP ';' '}'
+
+    Id       deslocar, e ir ao estado 60
+    Boolean  deslocar, e ir ao estado 19
+    Int      deslocar, e ir ao estado 20
+    If       deslocar, e ir ao estado 55
+    While    deslocar, e ir ao estado 56
+    Sout     deslocar, e ir ao estado 57
+    '{'      deslocar, e ir ao estado 58
+
+    VAR   ir ao estado 21
+    TIPO  ir ao estado 23
+    CMD   ir ao estado 61
+
+
+Estado 53
+
+   11 PARAM: PARAM ',' TIPO Id .
+
+    $padrão  reduzir usando a regra 11 (PARAM)
+
+
+Estado 54
+
+   25 CMD: Id . '=' EXP ';'
+   26    | Id . '[' EXP ']' '=' EXP ';'
+
+    '['  deslocar, e ir ao estado 62
+    '='  deslocar, e ir ao estado 63
+
+
+Estado 55
+
+   21 CMD: If . '(' EXP ')' CMDLIST
+   22    | If . '(' EXP ')' CMDLIST Else CMD
+
+    '('  deslocar, e ir ao estado 64
+
+
+Estado 56
+
+   23 CMD: While . '(' EXP ')' CMDLIST
+
+    '('  deslocar, e ir ao estado 65
+
+
+Estado 57
+
+   24 CMD: Sout . '(' EXP ')' ';'
+
+    '('  deslocar, e ir ao estado 66
+
+
+Estado 58
+
+   20 CMD: '{' . CMDLIST '}'
+
+    $padrão  reduzir usando a regra 19 (CMDLIST)
+
+    CMDLIST  ir ao estado 67
+
+
+Estado 59
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id ')' '{' CMD . '}' '}'
+
+    '}'  deslocar, e ir ao estado 68
+
+
+Estado 60
+
+   17 TIPO: Id .
+   25 CMD: Id . '=' EXP ';'
+   26    | Id . '[' EXP ']' '=' EXP ';'
+
+    '['  deslocar, e ir ao estado 62
+    '='  deslocar, e ir ao estado 63
+
+    $padrão  reduzir usando a regra 17 (TIPO)
+
+
+Estado 61
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST CMD . Return EXP ';' '}'
+
+    Return  deslocar, e ir ao estado 69
+
+
+Estado 62
+
+   26 CMD: Id '[' . EXP ']' '=' EXP ';'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 80
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 63
+
+   25 CMD: Id '=' . EXP ';'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 86
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 64
+
+   21 CMD: If '(' . EXP ')' CMDLIST
+   22    | If '(' . EXP ')' CMDLIST Else CMD
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 87
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 65
+
+   23 CMD: While '(' . EXP ')' CMDLIST
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 88
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 66
+
+   24 CMD: Sout '(' . EXP ')' ';'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 89
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 67
+
+   18 CMDLIST: CMDLIST . CMD
+   20 CMD: '{' CMDLIST . '}'
+
+    Id     deslocar, e ir ao estado 54
+    If     deslocar, e ir ao estado 55
+    While  deslocar, e ir ao estado 56
+    Sout   deslocar, e ir ao estado 57
+    '{'    deslocar, e ir ao estado 58
+    '}'    deslocar, e ir ao estado 90
+
+    CMD  ir ao estado 91
+
+
+Estado 68
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' . '}'
+
+    '}'  deslocar, e ir ao estado 92
+
+
+Estado 69
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST CMD Return . EXP ';' '}'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 93
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 70
+
+   43 SEXP: num .
+
+    $padrão  reduzir usando a regra 43 (SEXP)
+
+
+Estado 71
+
+   49 PEXP: Id .
+
+    $padrão  reduzir usando a regra 49 (PEXP)
+
+
+Estado 72
+
+   41 SEXP: True .
+
+    $padrão  reduzir usando a regra 41 (SEXP)
+
+
+Estado 73
+
+   42 SEXP: False .
+
+    $padrão  reduzir usando a regra 42 (SEXP)
+
+
+Estado 74
+
+   50 PEXP: This .
+
+    $padrão  reduzir usando a regra 50 (PEXP)
+
+
+Estado 75
+
+   45 SEXP: New . Int '[' EXP ']'
+   51 PEXP: New . Id '(' ')'
+
+    Id   deslocar, e ir ao estado 94
+    Int  deslocar, e ir ao estado 95
+
+
+Estado 76
+
+   44 SEXP: Null .
+
+    $padrão  reduzir usando a regra 44 (SEXP)
+
+
+Estado 77
+
+   52 PEXP: '(' . EXP ')'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 96
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 78
+
+   40 SEXP: '-' . SEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    SEXP  ir ao estado 97
+    PEXP  ir ao estado 85
+
+
+Estado 79
+
+   39 SEXP: '!' . SEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    SEXP  ir ao estado 98
+    PEXP  ir ao estado 85
+
+
+Estado 80
+
+   26 CMD: Id '[' EXP . ']' '=' EXP ';'
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ']'      deslocar, e ir ao estado 100
+
+
+Estado 81
+
+   28 EXP: REXP .
+   29 REXP: REXP . '<' AEXP
+   30     | REXP . igual AEXP
+   31     | REXP . diferente AEXP
+
+    igual      deslocar, e ir ao estado 101
+    diferente  deslocar, e ir ao estado 102
+    '<'        deslocar, e ir ao estado 103
+
+    $padrão  reduzir usando a regra 28 (EXP)
+
+
+Estado 82
+
+   32 REXP: AEXP .
+   33 AEXP: AEXP . '+' MEXP
+   34     | AEXP . '-' MEXP
+
+    '+'  deslocar, e ir ao estado 104
+    '-'  deslocar, e ir ao estado 105
+
+    $padrão  reduzir usando a regra 32 (REXP)
+
+
+Estado 83
+
+   35 AEXP: MEXP .
+   36 MEXP: MEXP . '*' SEXP
+   37     | MEXP . '/' SEXP
+
+    '*'  deslocar, e ir ao estado 106
+    '/'  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 35 (AEXP)
+
+
+Estado 84
+
+   38 MEXP: SEXP .
+
+    $padrão  reduzir usando a regra 38 (MEXP)
+
+
+Estado 85
+
+   46 SEXP: PEXP . '.' Length
+   47     | PEXP . '[' EXP ']'
+   48     | PEXP .
+   53 PEXP: PEXP . '.' Id
+   54     | PEXP . '.' Id '(' EXPS ')'
+   55     | PEXP . '.' Id '(' ')'
+
+    '['  deslocar, e ir ao estado 108
+    '.'  deslocar, e ir ao estado 109
+
+    $padrão  reduzir usando a regra 48 (SEXP)
+
+
+Estado 86
+
+   25 CMD: Id '=' EXP . ';'
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ';'      deslocar, e ir ao estado 110
+
+
+Estado 87
+
+   21 CMD: If '(' EXP . ')' CMDLIST
+   22    | If '(' EXP . ')' CMDLIST Else CMD
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ')'      deslocar, e ir ao estado 111
+
+
+Estado 88
+
+   23 CMD: While '(' EXP . ')' CMDLIST
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ')'      deslocar, e ir ao estado 112
+
+
+Estado 89
+
+   24 CMD: Sout '(' EXP . ')' ';'
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ')'      deslocar, e ir ao estado 113
+
+
+Estado 90
+
+   20 CMD: '{' CMDLIST '}' .
+
+    $padrão  reduzir usando a regra 20 (CMD)
+
+
+Estado 91
+
+   18 CMDLIST: CMDLIST CMD .
+
+    $padrão  reduzir usando a regra 18 (CMDLIST)
+
+
+Estado 92
+
+    2 MAIN: Class Id '{' Public Static Void Main '(' String '[' ']' Id ')' '{' CMD '}' '}' .
+
+    $padrão  reduzir usando a regra 2 (MAIN)
+
+
+Estado 93
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST CMD Return EXP . ';' '}'
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ';'      deslocar, e ir ao estado 114
+
+
+Estado 94
+
+   51 PEXP: New Id . '(' ')'
+
+    '('  deslocar, e ir ao estado 115
+
+
+Estado 95
+
+   45 SEXP: New Int . '[' EXP ']'
+
+    '['  deslocar, e ir ao estado 116
+
+
+Estado 96
+
+   27 EXP: EXP . eLogico REXP
+   52 PEXP: '(' EXP . ')'
+
+    eLogico  deslocar, e ir ao estado 99
+    ')'      deslocar, e ir ao estado 117
+
+
+Estado 97
+
+   40 SEXP: '-' SEXP .
+
+    $padrão  reduzir usando a regra 40 (SEXP)
+
+
+Estado 98
+
+   39 SEXP: '!' SEXP .
+
+    $padrão  reduzir usando a regra 39 (SEXP)
+
+
+Estado 99
+
+   27 EXP: EXP eLogico . REXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    REXP  ir ao estado 118
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 100
+
+   26 CMD: Id '[' EXP ']' . '=' EXP ';'
+
+    '='  deslocar, e ir ao estado 119
+
+
+Estado 101
+
+   30 REXP: REXP igual . AEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    AEXP  ir ao estado 120
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 102
+
+   31 REXP: REXP diferente . AEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    AEXP  ir ao estado 121
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 103
+
+   29 REXP: REXP '<' . AEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    AEXP  ir ao estado 122
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 104
+
+   33 AEXP: AEXP '+' . MEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    MEXP  ir ao estado 123
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 105
+
+   34 AEXP: AEXP '-' . MEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    MEXP  ir ao estado 124
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 106
+
+   36 MEXP: MEXP '*' . SEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    SEXP  ir ao estado 125
+    PEXP  ir ao estado 85
+
+
+Estado 107
+
+   37 MEXP: MEXP '/' . SEXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    SEXP  ir ao estado 126
+    PEXP  ir ao estado 85
+
+
+Estado 108
+
+   47 SEXP: PEXP '[' . EXP ']'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 127
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 109
+
+   46 SEXP: PEXP '.' . Length
+   53 PEXP: PEXP '.' . Id
+   54     | PEXP '.' . Id '(' EXPS ')'
+   55     | PEXP '.' . Id '(' ')'
+
+    Id      deslocar, e ir ao estado 128
+    Length  deslocar, e ir ao estado 129
+
+
+Estado 110
+
+   25 CMD: Id '=' EXP ';' .
+
+    $padrão  reduzir usando a regra 25 (CMD)
+
+
+Estado 111
+
+   21 CMD: If '(' EXP ')' . CMDLIST
+   22    | If '(' EXP ')' . CMDLIST Else CMD
+
+    $padrão  reduzir usando a regra 19 (CMDLIST)
+
+    CMDLIST  ir ao estado 130
+
+
+Estado 112
+
+   23 CMD: While '(' EXP ')' . CMDLIST
+
+    $padrão  reduzir usando a regra 19 (CMDLIST)
+
+    CMDLIST  ir ao estado 131
+
+
+Estado 113
+
+   24 CMD: Sout '(' EXP ')' . ';'
+
+    ';'  deslocar, e ir ao estado 132
+
+
+Estado 114
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST CMD Return EXP ';' . '}'
+
+    '}'  deslocar, e ir ao estado 133
+
+
+Estado 115
+
+   51 PEXP: New Id '(' . ')'
+
+    ')'  deslocar, e ir ao estado 134
+
+
+Estado 116
+
+   45 SEXP: New Int '[' . EXP ']'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 135
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 117
+
+   52 PEXP: '(' EXP ')' .
+
+    $padrão  reduzir usando a regra 52 (PEXP)
+
+
+Estado 118
+
+   27 EXP: EXP eLogico REXP .
+   29 REXP: REXP . '<' AEXP
+   30     | REXP . igual AEXP
+   31     | REXP . diferente AEXP
+
+    igual      deslocar, e ir ao estado 101
+    diferente  deslocar, e ir ao estado 102
+    '<'        deslocar, e ir ao estado 103
+
+    $padrão  reduzir usando a regra 27 (EXP)
+
+
+Estado 119
+
+   26 CMD: Id '[' EXP ']' '=' . EXP ';'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 136
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 120
+
+   30 REXP: REXP igual AEXP .
+   33 AEXP: AEXP . '+' MEXP
+   34     | AEXP . '-' MEXP
+
+    '+'  deslocar, e ir ao estado 104
+    '-'  deslocar, e ir ao estado 105
+
+    $padrão  reduzir usando a regra 30 (REXP)
+
+
+Estado 121
+
+   31 REXP: REXP diferente AEXP .
+   33 AEXP: AEXP . '+' MEXP
+   34     | AEXP . '-' MEXP
+
+    '+'  deslocar, e ir ao estado 104
+    '-'  deslocar, e ir ao estado 105
+
+    $padrão  reduzir usando a regra 31 (REXP)
+
+
+Estado 122
+
+   29 REXP: REXP '<' AEXP .
+   33 AEXP: AEXP . '+' MEXP
+   34     | AEXP . '-' MEXP
+
+    '+'  deslocar, e ir ao estado 104
+    '-'  deslocar, e ir ao estado 105
+
+    $padrão  reduzir usando a regra 29 (REXP)
+
+
+Estado 123
+
+   33 AEXP: AEXP '+' MEXP .
+   36 MEXP: MEXP . '*' SEXP
+   37     | MEXP . '/' SEXP
+
+    '*'  deslocar, e ir ao estado 106
+    '/'  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 33 (AEXP)
+
+
+Estado 124
+
+   34 AEXP: AEXP '-' MEXP .
+   36 MEXP: MEXP . '*' SEXP
+   37     | MEXP . '/' SEXP
+
+    '*'  deslocar, e ir ao estado 106
+    '/'  deslocar, e ir ao estado 107
+
+    $padrão  reduzir usando a regra 34 (AEXP)
+
+
+Estado 125
+
+   36 MEXP: MEXP '*' SEXP .
+
+    $padrão  reduzir usando a regra 36 (MEXP)
+
+
+Estado 126
+
+   37 MEXP: MEXP '/' SEXP .
+
+    $padrão  reduzir usando a regra 37 (MEXP)
+
+
+Estado 127
+
+   27 EXP: EXP . eLogico REXP
+   47 SEXP: PEXP '[' EXP . ']'
+
+    eLogico  deslocar, e ir ao estado 99
+    ']'      deslocar, e ir ao estado 137
+
+
+Estado 128
+
+   53 PEXP: PEXP '.' Id .
+   54     | PEXP '.' Id . '(' EXPS ')'
+   55     | PEXP '.' Id . '(' ')'
+
+    '('  deslocar, e ir ao estado 138
+
+    $padrão  reduzir usando a regra 53 (PEXP)
+
+
+Estado 129
+
+   46 SEXP: PEXP '.' Length .
+
+    $padrão  reduzir usando a regra 46 (SEXP)
+
+
+Estado 130
+
+   18 CMDLIST: CMDLIST . CMD
+   21 CMD: If '(' EXP ')' CMDLIST .
+   22    | If '(' EXP ')' CMDLIST . Else CMD
+
+    Id     deslocar, e ir ao estado 54
+    If     deslocar, e ir ao estado 55
+    Else   deslocar, e ir ao estado 139
+    While  deslocar, e ir ao estado 56
+    Sout   deslocar, e ir ao estado 57
+    '{'    deslocar, e ir ao estado 58
+
+    Id        [reduzir usando a regra 21 (CMD)]
+    If        [reduzir usando a regra 21 (CMD)]
+    Else      [reduzir usando a regra 21 (CMD)]
+    While     [reduzir usando a regra 21 (CMD)]
+    Sout      [reduzir usando a regra 21 (CMD)]
+    '{'       [reduzir usando a regra 21 (CMD)]
+    $padrão  reduzir usando a regra 21 (CMD)
+
+    CMD  ir ao estado 91
+
+
+Estado 131
+
+   18 CMDLIST: CMDLIST . CMD
+   23 CMD: While '(' EXP ')' CMDLIST .
+
+    Id     deslocar, e ir ao estado 54
+    If     deslocar, e ir ao estado 55
+    While  deslocar, e ir ao estado 56
+    Sout   deslocar, e ir ao estado 57
+    '{'    deslocar, e ir ao estado 58
+
+    Id        [reduzir usando a regra 23 (CMD)]
+    If        [reduzir usando a regra 23 (CMD)]
+    While     [reduzir usando a regra 23 (CMD)]
+    Sout      [reduzir usando a regra 23 (CMD)]
+    '{'       [reduzir usando a regra 23 (CMD)]
+    $padrão  reduzir usando a regra 23 (CMD)
+
+    CMD  ir ao estado 91
+
+
+Estado 132
+
+   24 CMD: Sout '(' EXP ')' ';' .
+
+    $padrão  reduzir usando a regra 24 (CMD)
+
+
+Estado 133
+
+   10 METODO: Public TIPO Id '(' PARAM ')' '{' VARLIST CMD Return EXP ';' '}' .
+
+    $padrão  reduzir usando a regra 10 (METODO)
+
+
+Estado 134
+
+   51 PEXP: New Id '(' ')' .
+
+    $padrão  reduzir usando a regra 51 (PEXP)
+
+
+Estado 135
+
+   27 EXP: EXP . eLogico REXP
+   45 SEXP: New Int '[' EXP . ']'
+
+    eLogico  deslocar, e ir ao estado 99
+    ']'      deslocar, e ir ao estado 140
+
+
+Estado 136
+
+   26 CMD: Id '[' EXP ']' '=' EXP . ';'
+   27 EXP: EXP . eLogico REXP
+
+    eLogico  deslocar, e ir ao estado 99
+    ';'      deslocar, e ir ao estado 141
+
+
+Estado 137
+
+   47 SEXP: PEXP '[' EXP ']' .
+
+    $padrão  reduzir usando a regra 47 (SEXP)
+
+
+Estado 138
+
+   54 PEXP: PEXP '.' Id '(' . EXPS ')'
+   55     | PEXP '.' Id '(' . ')'
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    ')'    deslocar, e ir ao estado 142
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    ')'       [reduzir usando a regra 58 (EXPS)]
+    $padrão  reduzir usando a regra 58 (EXPS)
+
+    EXP   ir ao estado 143
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+    EXPS  ir ao estado 144
+
+
+Estado 139
+
+   22 CMD: If '(' EXP ')' CMDLIST Else . CMD
+
+    Id     deslocar, e ir ao estado 54
+    If     deslocar, e ir ao estado 55
+    While  deslocar, e ir ao estado 56
+    Sout   deslocar, e ir ao estado 57
+    '{'    deslocar, e ir ao estado 58
+
+    CMD  ir ao estado 145
+
+
+Estado 140
+
+   45 SEXP: New Int '[' EXP ']' .
+
+    $padrão  reduzir usando a regra 45 (SEXP)
+
+
+Estado 141
+
+   26 CMD: Id '[' EXP ']' '=' EXP ';' .
+
+    $padrão  reduzir usando a regra 26 (CMD)
+
+
+Estado 142
+
+   55 PEXP: PEXP '.' Id '(' ')' .
+
+    $padrão  reduzir usando a regra 55 (PEXP)
+
+
+Estado 143
+
+   27 EXP: EXP . eLogico REXP
+   57 EXPS: EXP .
+
+    eLogico  deslocar, e ir ao estado 99
+
+    $padrão  reduzir usando a regra 57 (EXPS)
+
+
+Estado 144
+
+   54 PEXP: PEXP '.' Id '(' EXPS . ')'
+   56 EXPS: EXPS . ',' EXP
+
+    ')'  deslocar, e ir ao estado 146
+    ','  deslocar, e ir ao estado 147
+
+
+Estado 145
+
+   22 CMD: If '(' EXP ')' CMDLIST Else CMD .
+
+    $padrão  reduzir usando a regra 22 (CMD)
+
+
+Estado 146
+
+   54 PEXP: PEXP '.' Id '(' EXPS ')' .
+
+    $padrão  reduzir usando a regra 54 (PEXP)
+
+
+Estado 147
+
+   56 EXPS: EXPS ',' . EXP
+
+    num    deslocar, e ir ao estado 70
+    Id     deslocar, e ir ao estado 71
+    True   deslocar, e ir ao estado 72
+    False  deslocar, e ir ao estado 73
+    This   deslocar, e ir ao estado 74
+    New    deslocar, e ir ao estado 75
+    Null   deslocar, e ir ao estado 76
+    '('    deslocar, e ir ao estado 77
+    '-'    deslocar, e ir ao estado 78
+    '!'    deslocar, e ir ao estado 79
+
+    EXP   ir ao estado 148
+    REXP  ir ao estado 81
+    AEXP  ir ao estado 82
+    MEXP  ir ao estado 83
+    SEXP  ir ao estado 84
+    PEXP  ir ao estado 85
+
+
+Estado 148
+
+   27 EXP: EXP . eLogico REXP
+   56 EXPS: EXPS ',' EXP .
+
+    eLogico  deslocar, e ir ao estado 99
+
+    $padrão  reduzir usando a regra 56 (EXPS)
