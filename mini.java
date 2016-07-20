@@ -1,6 +1,6 @@
 
 class Factorial {
-public static void main(String[] queijoqueijo ){
+public static void main(String[] b ){
 System.out.println(new Fac().ComputeFac(10));
 }
 }
