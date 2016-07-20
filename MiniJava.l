@@ -6,11 +6,9 @@ using namespace std;
 int line_num = 1;
 %}
 
-%x COMMENTS
-
 %%
 [ \t\r\f]         ;
-[{}()[\]=<>+\-*/\.%!,;]  { cout << yytext << endl; return (unsigned char) *yytext;   }
+[\{\}\(\)\[\]=<>+\-*/\.%!,;] { cout << yytext << endl; return (unsigned char) *yytext;   }
 \n      { ++line_num; }
 [+-]?[0-9]+          { cout << yytext << endl; yylval.ival = atoi(yytext); return num; }
 "boolean"   { cout << yytext << endl;yylval.sval = strdup(yytext); return Boolean; }
@@ -33,18 +31,11 @@ int line_num = 1;
 "this"  { cout << yytext << endl;yylval.sval = strdup(yytext); return This; }
 "new"   { cout << yytext << endl;yylval.sval = strdup(yytext); return New; }
 "null"  { cout << yytext << endl;yylval.sval = strdup(yytext); return Null; }
-[a-zA-Z]+[[a-zA-Z0-9\_]*[a-zA-Z0-9]+]* { cout << yytext << endl; yylval.sval = strdup(yytext); return Id; }
+[a-zA-Z]+[a-zA-Z0-9_]* { cout << yytext << endl; yylval.sval = strdup(yytext); return Id; }
 "==" { cout << yytext << endl;yylval.sval = strdup(yytext); return igual; }
 "!=" { cout << yytext << endl;yylval.sval = strdup(yytext); return diferente; }
 "&&" { cout << yytext << endl;yylval.sval = strdup(yytext); return eLogico; }
 <<EOF>> {yyterminate(); }
 
-\/\* { // start of a comment: go to a 'COMMENTS' state.
-	BEGIN(COMMENTS);
-	}
-<COMMENTS>\*\/    {   // end of a comment: go back to normal parsing.
-	BEGIN(INITIAL);
-	}
-<COMMENTS>\n      { ++line_num; }   // still have to increment line numbers inside of comments!
-<COMMENTS>.       ;   // ignore every other character while we're in this state
 %%
+
