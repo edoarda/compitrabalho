@@ -33,7 +33,7 @@ int line_num = 1;
 "this"  { cout << yytext << endl;yylval.sval = strdup(yytext);   }
 "new"   { cout << yytext << endl;yylval.sval = strdup(yytext);   }
 "null"  { cout << yytext << endl;yylval.sval = strdup(yytext);   }
-[a-zA-Z]+[[a-zA-Z0-9]*[a-zA-Z0-9]+]* { cout << yytext << endl; yylval.sval = strdup(yytext);   }
+[a-zA-Z]+[a-zA-Z0-9_]* { cout << yytext << endl; yylval.sval = strdup(yytext);   }
 "==" { cout << yytext << endl;yylval.sval = strdup(yytext);   }
 "!=" { cout << yytext << endl;yylval.sval = strdup(yytext);   }
 "&&" { cout << yytext << endl;yylval.sval = strdup(yytext);   }
